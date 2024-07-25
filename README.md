@@ -62,7 +62,7 @@ https://learn.microsoft.com/en-us/sql/connect/odbc/linux-mac/install-microsoft-o
 ## Codigo prueba en python para conexión
 
 > [!WARNING]
-> Es necesario hablar con los DBAs para que puedan crearte un usuario fuera de red para poderte conectar con python desde macOS
+> Se requiere coordinar con los Administradores de bases de datos para que te asignen un usuario no autenticado que te permita establecer una conexión segura a la base de datos desde macOS utilizando Python
 
 - [ ] Creacion de archivo `odbc.ini`
       
