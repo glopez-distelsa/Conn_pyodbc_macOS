@@ -10,6 +10,10 @@ https://github.com/mkleehammer/pyodbc/wiki/Connecting-to-SQL-Server-from-Mac-OSX
 ```
 https://learn.microsoft.com/en-us/sql/connect/odbc/linux-mac/install-microsoft-odbc-driver-sql-server-macos?view=sql-server-ver16#17
 ```
+  
+> [!IMPORTANT]
+> Antes de comenzar, es fundamental tener un entorno de Python configurado adecuadamente. En el repositorio [conda_environments_install](https://github.com/glopez-distelsa/conda_environments_install), proporciono una guía detallada sobre cómo configurar entornos conda según el proyecto en el que estés trabajando, asegurando que todas las dependencias necesarias se encuentren dentro del mismo. Si aún no estás familiarizado con el uso de entornos, te recomiendo revisarlo.
+
 
 ## Pasos a seguir para instalacion 
   
@@ -56,10 +60,6 @@ https://learn.microsoft.com/en-us/sql/connect/odbc/linux-mac/install-microsoft-o
   ```
 
 ## Codigo prueba en python para conexión
-
-> [!IMPORTANT]
-> Tener instalado pyodbc en nuestro ambiente de python: 
-> `pip install pyodbc`
 
 > [!WARNING]
 > Es necesario hablar con los DBAs para que puedan crearte un usuario fuera de red para poderte conectar con python desde macOS
