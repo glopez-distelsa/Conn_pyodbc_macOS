@@ -1,4 +1,4 @@
-# conn_pyodbc_macOS👨‍💻🚀☕️ 
+# pyodbc_sqlalchemy_macOS 👨‍💻🚀☕️ 
 
 ## Fuente: 🗃️
 
