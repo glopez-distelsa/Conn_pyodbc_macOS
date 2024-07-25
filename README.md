@@ -66,7 +66,7 @@ https://learn.microsoft.com/en-us/sql/connect/odbc/linux-mac/install-microsoft-o
 
 - [ ] Creacion de archivo `odbc.ini`
       
-    - Este archivo nos ayuda a crear las credenciales en el y no quemarlas dentro del codigo python, lo mas recomendable seria poder utilizar una bobeda compartida o cloud para gestionarlas desde ahi, pero de momento podriamos hacerlo de la siguiente forma: `crear el archivo /usr/local/etc/odbc.ini`
+    - Este archivo nos ayuda a crear las credenciales en el y no quemarlas dentro del codigo python, lo mas recomendable seria poder utilizar una boveda compartida o cloud para gestionarlas desde ahi, pero de momento podriamos hacerlo de la siguiente forma: `crear el archivo /usr/local/etc/odbc.ini`
       
   ```
   [SQLSERVER113]
