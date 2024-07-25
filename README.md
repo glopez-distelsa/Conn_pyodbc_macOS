@@ -1,4 +1,4 @@
-# Conn_pyodbc_macOS👨‍💻🚀☕️ 
+# conn_pyodbc_macOS👨‍💻🚀☕️ 
 
 ## Fuente: 🗃️
 
