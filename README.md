@@ -47,39 +47,61 @@ https://learn.microsoft.com/en-us/sql/connect/odbc/linux-mac/install-microsoft-o
 > - PostgreSQL `brew install psqlodbc`
 > - SQLite `brew install qliteodbc`
         
-- [ ] Configuracion del entorno:
+- [ ] Configuracion del entorno
       
-    - Agrega la ruta de las bibliotecas de `Homebrew` a `DYLD_LIBRARY_PATH` en macOS:
+    - Agrega la ruta de las bibliotecas de `Homebrew` a `DYLD_LIBRARY_PATH` en macOS
       
   ```
   export DYLD_LIBRARY_PATH=/opt/homebrew/lib:$DYLD_LIBRARY_PATH
   ```
 
+## Codigo prueba en python para conexión
+
 > [!IMPORTANT]
 > Tener instalado pyodbc en nuestro ambiente de python: 
 > `pip install pyodbc`
 
-- [ ] Codigo prueba en python para conexión:
-
 > [!WARNING]
-> Es necesario hablar con los DBAs para que puedan crearte un usuario especial para poderte conectar con python desde macOS
+> Es necesario hablar con los DBAs para que puedan crearte un usuario fuera de red para poderte conectar con python desde macOS
+
+- [ ] Creacion de archivo `odbc.ini`
+      
+    - Este archivo nos ayuda a crear las credenciales en el y no quemarlas dentro del codigo python, lo mas recomendable seria poder utilizar una bobeda compartida o cloud para gestionarlas desde ahi, pero de momento podriamos hacerlo de la siguiente forma: `crear el archivo /usr/local/etc/odbc.ini`
+      
+  ```
+  [SQLSERVER113]
+  Description = My SQL Server
+  Driver = ODBC Driver 18 for SQL Server
+  Server = <TU_SERVIDOR> #.113
+  Database = <TU_BASE_DE_DATOS>
+  UID = <TU_USUARIO>
+  PWD = <TU_CONTRASEÑA>
+  TrustServerCertificate = yes
+  ```
+
+    - Codigo python
 
 ```python
 import pyodbc
+import configparser
+
+config = configparser.ConfigParser()
+config.read('/usr/local/etc/odbc.ini')
+db_config = config['SQLSERVER113']
 
 conn_str = (
-    'DRIVER={ODBC Driver 18 for SQL Server};'
-    'SERVER=<TU_SERVIDOR>;'
-    'DATABASE=<TU_BASE_DE_DATOS>;'
-    'UID=<TU_USUARIO>;'
-    'PWD=<TU_CONTRASEÑA>;'
-    'Authentication=ActiveDirectoryIntegrated;'
+    f'DRIVER={db_config["Driver"]};'
+    f'SERVER={db_config["Server"]};'
+    f'DATABASE={db_config["Database"]};'
+    f'UID={db_config["UID"]};'
+    f'PWD={db_config["PWD"]};'
+    f'TrustServerCertificate={db_config["TrustServerCertificate"]};'
 )
 
 try:
     connection = pyodbc.connect(conn_str)
-    print("Conectado a la base de datos!")
+    print("Connected to the database!")
     connection.close()
 except Exception as e:
-    print(f"Error al conectar a la base de datos: {e}")
+    print(f"Failed to connect to the database: {e}")
 ```
