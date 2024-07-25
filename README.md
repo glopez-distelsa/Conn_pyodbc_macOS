@@ -79,7 +79,7 @@ https://learn.microsoft.com/en-us/sql/connect/odbc/linux-mac/install-microsoft-o
   TrustServerCertificate = yes
   ```
 
-    - Codigo python
+    - Codigo python con pyodbc
 
 ```python
 import pyodbc
@@ -104,4 +104,93 @@ try:
     connection.close()
 except Exception as e:
     print(f"Failed to connect to the database: {e}")
+```
+
+   - Codigo python con SQLAlchemy
+
+
+```python
+import urllib
+import configparser
+import pandas as pd
+from sqlalchemy import create_engine, text
+from sqlalchemy.exc import SQLAlchemyError
+
+# ------------------------------------------------
+# configure crednentials
+# ------------------------------------------------
+config = configparser.ConfigParser()
+config.read('/usr/local/etc/odbc.ini')
+db_config = config['SQLSERVER113']
+
+# Cadena de conexión ODBC
+odbc_str = (
+    f'DRIVER={db_config["Driver"]};SERVER={db_config["Server"]},{db_config["PORT"]};DATABASE={db_config["Database"]};UID={db_config["UID"]};PWD={db_config["PWD"]};TrustServerCertificate={db_config["TrustServerCertificate"]};Encrypt=yes'
+    )
+
+# Convertir a formato compatible con SQLAlchemy
+connection_string = f'mssql+pyodbc:///?odbc_connect={urllib.parse.quote_plus(odbc_str)}'
+
+def get_driver_list():
+    """_summary_
+
+    Returns:
+        _type_: _description_
+    """
+    import pyodbc
+
+    print("List of ODBC Drivers:")
+    print("------------------------")
+    dlist = pyodbc.drivers()
+    for drvr in dlist:
+        print(drvr)
+    print("------------------------")
+    return 0
+
+def test_connection():
+    try:
+        query = text("SELECT @@version;")
+        engine = create_engine(connection_string)
+        conn = engine.connect()
+        
+        df = pd.read_sql(query, conn)
+        print(df.iloc[0, 0])
+        print('Connection SUCCESSFUL')
+        conn.close()
+        return 0
+    except SQLAlchemyError as err:
+        print("Error", err.__cause__)
+        return -1
+
+def get_engine(echo=True):
+    """_summary_
+
+    Returns:
+        _type_: _description_
+    """
+    try:
+        engine = create_engine(connection_string, echo=echo)
+        return engine
+
+    except SQLAlchemyError as err:
+        print("error", err.__cause__)
+        return -1
+
+def get_conn():
+    """_summary_
+
+    Returns:
+        _type_: _description_
+    """
+    try:
+        engine = get_engine(echo=False)
+        conn = engine.connect()
+        return conn
+
+    except SQLAlchemyError as err:
+        print("error", err.__cause__)
+        return -1
+
+if __name__ == "__main__":
+    test_connection()
 ```
